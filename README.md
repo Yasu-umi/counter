@@ -1,0 +1,1 @@
+docker build -t counter . && docker run --net=host -d counter

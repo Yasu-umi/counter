@@ -1,0 +1,6 @@
+{
+  "sessionSecret": "7d159dff-476b-4947-9ec9-3ab3992ab30d",
+  "mongo": {
+    "url": "mongodb://localhost"
+  }
+}
