@@ -1,8 +1,9 @@
-var get = function(req, res){
-  req.session.destroy();
-  res.redirect("/");
-};
+'use strict';
+
 
 module.exports = {
-  get: get
+  get: function(req, res){
+    req.session.destroy();
+    res.redirect('/');
+  }
 };

@@ -1,8 +1,18 @@
-var get = function(req, res){
-  console.log("login: " + req.session.user);
-  res.render("index", { user: req.session.user});
-};
+'use strict';
+
+var logger = require('../libs/logger');
+var User = require('../model').User;
+
 
 module.exports = {
-  get: get
+  get: function(req, res){
+    var query = { email: req.session.user };
+    User.findOne(query, function(err, model){
+      if (err) {
+        logger.error.info({ message: 'User FindOne Error', err: err });
+        return;
+      }
+      res.render('index', { user: model.email, id: model.id});
+    });
+  }
 };

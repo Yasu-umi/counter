@@ -1,18 +1,14 @@
-var mongoose = require("mongoose");
-var config = require('config');
+'use strict';
 
-var url = config.get("mongo.url") + "/user";
-var db  = mongoose.createConnection(url, function(err, res){
-  if (err) {
-    console.log("Error connected: " + url + " - " + err);
-  } else {
-    console.log("Success connected: " + url);
-  }
-});
+var mongoose = require('mongoose');
+var config = require('config');
+var getDB = require('../libs/getDB');
+
 
 var UserSchema = new mongoose.Schema({
+  id: String,
   email : String,
-  password  : String
-},{collection: "info"});
+  password : String
+});
 
-module.exports = db.model("User", UserSchema);
+module.exports = getDB(config.get('mongo.url') + '/user').model('User', UserSchema);

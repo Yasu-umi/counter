@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= user %></title>
+    <title>counter</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= user %></h1>
-    <p>Welcome to <%= user %></p>
+    <h1>Welcome to <%= user %></h1>
+    <button id='userDelete'><a href='/users/<%= id %>/delete'>DELETE</a></button>
+    <button id='userLogout'><a href='/logout'>LOGOUT</a></button>
   </body>
 </html>

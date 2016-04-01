@@ -1,10 +1,13 @@
+'use strict';
+
+var logger = require('./logger');
+
+
 var loginCheck = function(req, res, next) {
-  if ("session" in req && "user" in req.session){
-    console.log("logincheck", req.session.user);
+  if ('session' in req && 'user' in req.session){
     next();
   } else {
-    console.log("redirect");
-    res.redirect("/login");
+    res.redirect('/login');
   }
 };
 
