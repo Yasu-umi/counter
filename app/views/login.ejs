@@ -13,10 +13,32 @@
   </form>
 
   <h2>新規登録</h2>
-  <form action='/users' method='POST'>
+  <form id='newUser'>
     <input type='text' name='email' placeholder='Email'/>
     <input type='password' name='password' placeholder='Password'/>
     <button type='submit'>新規登録</button>
   </form>
+
+  <script>
+    // for register form
+    document.getElementById('newUser').addEventListener('submit' , function(e){
+      e.preventDefault();
+      if (!e.target[0].value || !e.target[1].value) {
+        console.log('empty');
+        return;
+      }
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function(res){
+        window.location.href = '/login?email=' + e.target[0].value + '&password=' + e.target[1].value;
+      };
+      xhr.onerror = function(e){
+        console.log(e);
+      };
+      xhr.open('POST', '/users');
+      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhr.responseType = 'json';
+      xhr.send(JSON.stringify({ email: e.target[0].value, password: e.target[1].value }));
+    });
+  </script>
 </body>
 </html>

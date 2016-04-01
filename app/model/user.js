@@ -1,7 +1,6 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var config = require('config');
 var getDB = require('../libs/getDB');
 
 
@@ -11,4 +10,4 @@ var UserSchema = new mongoose.Schema({
   password : String
 });
 
-module.exports = getDB(config.get('mongo.url') + '/user').model('User', UserSchema);
+module.exports = getDB('/user').model('User', UserSchema);
