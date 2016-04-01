@@ -6,7 +6,26 @@
   </head>
   <body>
     <h1>Welcome to <%= user %></h1>
-    <button id='userDelete'><a href='/users/<%= id %>/delete'>DELETE</a></button>
+    <button id='userDelete'>DELETE</button>
     <button id='userLogout'><a href='/logout'>LOGOUT</a></button>
+    <script>
+      // for user delete button
+      document.getElementById('userDelete').addEventListener('click', function(){
+        var url = '/users/<%= id %>';
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function(res){
+          if ('message' in this.response && this.response.message === 'success'){
+            location.href = '/';
+          }
+        };
+        xhr.onerror = function(e){
+          console.log('error', e);
+        };
+        xhr.open('DELETE', url);
+        xhr.responseType = 'json';
+        xhr.withCredentials = true;
+        xhr.send({id: '<%= id %>'});
+      });
+    </script>
   </body>
 </html>

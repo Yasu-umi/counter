@@ -25,18 +25,18 @@ module.exports = {
     User.findOne(query, function(err, model){
       if (err) {
         logger.error.info({ message: 'User Find Error', err: err });
-        return;
+        res.json({ 'message': 'error' });
       }
       if (!model) {
-        return;
+        res.json({ 'message': 'error' });
       }
       model.remove(function(err){
         if (err) {
           logger.error.info({ message: 'User Remove Error', err: err });
-          return;
+          res.json({ 'message': 'error' });
         }
         req.session.destroy();
-        res.redirect('/');
+        res.json({ 'message': 'success' });
       });
     });
   }
