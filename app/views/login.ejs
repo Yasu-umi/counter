@@ -34,7 +34,7 @@
       xhr.onerror = function(e){
         console.log(e);
       };
-      xhr.open('POST', '/users');
+      xhr.open('POST', '/user');
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       xhr.responseType = 'json';
       xhr.send(JSON.stringify({ email: e.target[0].value, password: e.target[1].value }));

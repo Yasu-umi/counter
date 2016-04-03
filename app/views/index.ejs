@@ -2,17 +2,57 @@
 <html>
 <head>
   <title>counter</title>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' href='/libs/bootstrap-3.3.6/css/bootstrap.min.css' />
 </head>
 <body>
-  <h1>Welcome to <%= user %></h1>
-  <button id='userDelete'>DELETE</button>
-  <button id='userLogout'><a href='/logout'>LOGOUT</a></button>
+  <div id='page-container' class='fade page-header-fixed page-sidebar-fixed in'>
+    <div class='navbar navbar-default navbar-static-top navbar-inverse'>
+      <div class='container-fluid'>
+        <div class='navbar-header'>
+          <a class='navbar-brand'>Counter</a>
+        </div>
+        <ul class='nav navbar-nav navbar-right'>
+          <li><a data-toggle='modal' href='#userDeleteConfirm'>DELETE</a></li>
+          <li id='userLogout'><a href='/logout'>LOGOUT</a></li>
+        </ul>
+      </div>
+    </div>
 
+    <div class='container'>
+      <div class='row'>
+        <h3>Counts</h3>
+        <div class='counts'></div>
+      </div>
+      
+      <div class='row'>
+        <button class='countCreate' value='1'>Count 1</button>
+      </div>
+    </div>
+
+    <div id='userDeleteConfirm' class='modal fade' role='dialog' tabindex='-1' aria-labelledby='userDeleteConfirmLabel' aria-hidden='true' data-show='true' data-keyboard='false'>
+      <div class='modal-dialog modal-sm'>
+        <div class='modal-content'>
+          <div class='modal-header'>
+            <h4 class='modal-title' id='modal-label'>DELETE ACCOUNT</h4>
+          </div>
+          <div class='modal-body'>Are you sure that you want to delete your account ?</div>
+          <div class='modal-footer'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>CLOSE</button>
+            <button id='userDelete' type='button' class='btn btn-primary'>DELETE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src='/libs/jquery-1.12.2.js'></script>
+  <script src='/libs/bootstrap-3.3.6/js/bootstrap.min.js'></script>
   <script>
-    // for user delete button
+  // for user delete button
+  (function(){
     document.getElementById('userDelete').addEventListener('click', function(){
-      var url = '/users/<%= id %>';
       var xhr = new XMLHttpRequest();
       xhr.onload = function(res){
         if ('message' in this.response && this.response.message === 'success'){
@@ -22,11 +62,61 @@
       xhr.onerror = function(e){
         console.log('error', e);
       };
-      xhr.open('DELETE', url);
+      xhr.open('DELETE', '/user/<%= id %>');
       xhr.responseType = 'json';
       xhr.withCredentials = true;
       xhr.send({id: '<%= id %>'});
     });
+  })()
+  </script>
+  <script>
+  // get counts
+  window.addEventListener('load', function(){
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function(res){
+      if ('message' in this.response && this.response.message === 'success'){
+        this.response.counts.sort(function(a, b){
+          return a.created - b.created;
+        });
+        this.response.counts.forEach(function(count){
+          var div = document.createElement('div');
+          div.innerText = count.created;
+          console.log(div);
+          document.getElementsByClassName('counts')[0].appendChild(div);
+        });
+      }
+    };
+    xhr.onerror = function(e){
+      console.log(e);
+    };
+    xhr.open('GET', '/count?userId=<%= id %>');
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.responseType = 'json';
+    xhr.withCredentials = true;
+    xhr.send();
+  });
+  </script>
+  <script>
+  // create count
+  (function(){
+    [].forEach.call(document.getElementsByClassName('countCreate'), function(div){
+      div.addEventListener('click', function(){
+        var xhr = new XMLHttpRequest();
+        xhr.onerror = function(e){
+          console.log(e);
+        };
+        xhr.open('POST', '/count');
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+        xhr.responseType = 'json';
+        xhr.withCredentials = true;
+        xhr.send(JSON.stringify({
+          userId: '<%= id %>',
+          name: div.value,
+          created: (new Date()).getTime()
+        }));
+      });
+    }, false);
+  })()
   </script>
 </body>
 </html>

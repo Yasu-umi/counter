@@ -45,9 +45,10 @@ app.use(expressSession({
 app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', loginCheck, routes.index.get);
 app.get('/login', routes.login.get);
-app.post('/users', routes.users.post);
-app.delete('/users/:id', routes.users.delete);
+app.post('/user', routes.user.post);
+app.delete('/user/:id', routes.user.delete);
 app.get('/logout', routes.logout.get);
+app.get('/count', routes.count.get);
 app.post('/count', routes.count.post);
 
 // catch 404 and forward to error handler

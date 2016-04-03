@@ -10,10 +10,10 @@ module.exports = {
     // generate id
     req.body.id = guid();
     // parameters existing check
-    if (!req.body.email || !req.body.password || !req.body.id) {
+    if (!req.body.email || !req.body.password || !req.body.id){
       logger.error.info({ message: 'User Validation Error', err: req.body });
       res.json({ 'message': 'error' });
-        return;
+      return;
     }
     var query = { email: req.body.email };
     User.find(query, function(err, models){
@@ -40,17 +40,17 @@ module.exports = {
   },
   delete: function(req, res){
     var query = { 'id': req.url.split('/')[2] };
-    User.findOne(query, function(err, model){
+    User.findOne(query, function(err, user){
       if (err){
         logger.error.info({ message: 'User Find Error', err: err });
         res.json({ 'message': 'error' });
         return;
       }
-      if (!model){
+      if (!user){
         res.json({ 'message': 'error' });
         return;
       }
-      model.remove(function(err){
+      user.remove(function(err){
         if (err){
           logger.error.info({ message: 'User Remove Error', err: err });
           res.json({ 'message': 'error' });

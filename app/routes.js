@@ -2,8 +2,8 @@
 
 module.exports = {
   index: require('./routes/index'),
-  users: require('./routes/users'),
+  user: require('./routes/user'),
   login: require('./routes/login'),
   logout: require('./routes/logout'),
-  count: require('./routes/counts')
+  count: require('./routes/count')
 };
