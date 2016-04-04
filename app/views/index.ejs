@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>counter</title>
-  <meta charset='utf-8'>
+  <title>Counter</title>
+  <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
   <link rel='stylesheet' href='/libs/bootstrap-3.3.6/css/bootstrap.min.css' />
+  <link rel='stylesheet' href='/stylesheets/custom.css' />
 </head>
 <body>
-  <div id='page-container' class='fade page-header-fixed page-sidebar-fixed in'>
-    <div class='navbar navbar-default navbar-static-top navbar-inverse'>
+  <div class='fade page-header-fixed page-sidebar-fixed in'>
+    <div id='header' class='navbar navbar-default navbar-static-top inverse'>
       <div class='container-fluid'>
         <div class='navbar-header'>
           <a class='navbar-brand'>Counter</a>
@@ -20,14 +21,45 @@
       </div>
     </div>
 
-    <div class='container'>
+    <div id='content' class='container'>
       <div class='row'>
-        <h3>Counts</h3>
-        <div class='counts'></div>
-      </div>
-      
-      <div class='row'>
-        <button class='countCreate' value='1'>Count 1</button>
+
+        <div class='col-md-6'>
+          <div class='panel'>
+            <div class='panel-heading inverse'>
+              <h4 class='panel-title'>Counter</h4>
+            </div>
+            <div class='panel-body text-center'>
+              <button type='button' class='btn btn-default countCreate' value='1'>Count 1</button>
+              <button type='button' class='btn btn-default countCreate' value='2'>Count 2</button>
+              <button type='button' class='btn btn-default countCreate' value='3'>Count 3</button>
+              <button type='button' class='btn btn-default countCreate' value='4'>Count 4</button>
+              <button type='button' class='btn btn-default countCreate' value='5'>Count 5</button>
+              <button type='button' class='btn btn-default countCreate' value='6'>Count 6</button>
+            </div>
+          </div>
+        </div>
+
+        <div class='col-md-6'>
+          <div class='panel'>
+            <div class='panel-heading inverse'>
+              <h4 class='panel-title'>Logs</h4>
+            </div>
+            <div class='panel-body'>
+              <table class='table'>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>time</th>
+                  </tr>
+                </thead>
+                <tbody id='counts'>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -37,7 +69,7 @@
           <div class='modal-header'>
             <h4 class='modal-title' id='modal-label'>DELETE ACCOUNT</h4>
           </div>
-          <div class='modal-body'>Are you sure that you want to delete your account ?</div>
+          <div class='modal-body'>Are you sure you want to delete your account ?</div>
           <div class='modal-footer'>
             <button type='button' class='btn btn-default' data-dismiss='modal'>CLOSE</button>
             <button id='userDelete' type='button' class='btn btn-primary'>DELETE</button>
@@ -54,7 +86,7 @@
   (function(){
     document.getElementById('userDelete').addEventListener('click', function(){
       var xhr = new XMLHttpRequest();
-      xhr.onload = function(res){
+      xhr.onload = function(){
         if ('message' in this.response && this.response.message === 'success'){
           location.href = '/';
         }
@@ -71,30 +103,40 @@
   </script>
   <script>
   // get counts
-  window.addEventListener('load', function(){
-    var xhr = new XMLHttpRequest();
-    xhr.onload = function(res){
-      if ('message' in this.response && this.response.message === 'success'){
-        this.response.counts.sort(function(a, b){
-          return a.created - b.created;
-        });
-        this.response.counts.forEach(function(count){
-          var div = document.createElement('div');
-          div.innerText = count.created;
-          console.log(div);
-          document.getElementsByClassName('counts')[0].appendChild(div);
-        });
-      }
-    };
-    xhr.onerror = function(e){
-      console.log(e);
-    };
-    xhr.open('GET', '/count?userId=<%= id %>');
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.responseType = 'json';
-    xhr.withCredentials = true;
-    xhr.send();
-  });
+  (function(){
+    function updateCounts(){
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function(){
+        if ('message' in this.response && this.response.message === 'success'){
+          document.getElementById('counts').innerHTML = '';
+          this.response.counts.sort(function(a, b){
+            return a.created - b.created;
+          });
+          this.response.counts.forEach(function(count){
+            console.log(count.name, count.created);
+            var tr = document.createElement('tr');
+            var name = document.createElement('th');
+            name.innerText = count.name;
+            tr.appendChild(name);
+            var time = document.createElement('th');
+            time.innerText = new Date(count.created);
+            tr.appendChild(time);
+            document.getElementById('counts').appendChild(tr);
+          });
+        }
+      };
+      xhr.onerror = function(e){
+        console.log(e);
+      };
+      xhr.open('GET', '/count?userId=<%= id %>');
+      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+      xhr.responseType = 'json';
+      xhr.withCredentials = true;
+      xhr.send();
+    }
+    updateCounts();
+    setInterval(updateCounts, 5000);
+  })();
   </script>
   <script>
   // create count
