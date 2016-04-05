@@ -3,6 +3,7 @@ MAINTAINER "Yasu_umi Nishikawa" <yasu.umi.19910101@gmail.com>
 
 RUN apt-get update -y
 RUN apt-get install -y \
+        psmisc \
         monit \
         nodejs \
         npm \
