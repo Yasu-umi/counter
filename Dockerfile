@@ -6,8 +6,9 @@ RUN apt-get install -y \
         monit \
         nodejs \
         npm \
-        software-properties-common && \
-    update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10 && \
+        nginx \
+        software-properties-common
+RUN update-alternatives --install /usr/bin/node node /usr/bin/nodejs 10 && \
     npm install -g npm
 
 # install mongodb
@@ -21,14 +22,18 @@ RUN mkdir -p /var/db
 # monit configs
 ADD config/*.monit.conf /etc/monit/conf.d/
 
+# nginx config
+ADD config/nginx.default.conf /etc/nginx/sites-enabled/default
+
 # deploy node app
 ADD app/ /var/www
 WORKDIR /var/www
+RUN npm install
 
 # scripts
 ADD config/start.sh /root/start.sh
-ADD config/app.sh /root/app.sh
+ADD config/init.d-node /etc/init.d/node
 
-EXPOSE 3000 6379 27017
+EXPOSE 80 3000 27017
 
 CMD ["/bin/sh", "/root/start.sh"]
