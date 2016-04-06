@@ -16,6 +16,24 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
+ * Set listener on exit for delete pidfile
+ */
+var config = require('config');
+var logger = require('../libs/logger');
+process.on('exit', function(){
+  if (config.get('pidfile')) {
+    var fs = require('fs');
+    fs.unlink(config.get('pidfile'), function(err) {
+      if (err) {
+        logger.error.info({ message: 'Error Delete pidfile', err:  err });
+      } else {
+        logger.system.info({ message: 'Success Deleted pidfile'});
+      }
+    });
+  }
+});
+
+/**
  * Create HTTP server.
  */
 

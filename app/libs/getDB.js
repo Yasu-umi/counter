@@ -10,7 +10,7 @@ var getDB = function(url) {
   return mongoose.createConnection(url, function(err, res){
     if (err) {
       logger.error.info({ message: 'Error Connected ' + url, err:  err });
-      process.exit();
+      process.exit(1);
     } else {
       logger.system.info({ message: 'Success Connected ' + url });
     }

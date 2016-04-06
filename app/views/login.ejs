@@ -10,77 +10,51 @@
 <body>
   <div id='content-center' class='container'>
     <div class='row'>
-
       <div class='col-md-6 col-md-offset-3'>
-        <div class='panel panel-login'>
-          <div class='panel-heading'>
-            <div class='row'>
-              <div class='col-xs-6'>
-                <a href='#' id='login-form-link'>Login</a>
-              </div>
-              <div class='col-xs-6'>
-                <a href='#' id='resister-form-link'>Resister</a>
-              </div>
+          <ul class='nav nav-tabs'>
+            <li><a href='#login-form' id='login-form-link' data-toggle='tab'>Login</a></li>
+            <li><a href='#resister-form' id='resister-form-link' data-toggle='tab'>Resister</a></li>
+          </ul>
+          <div class='tab-content'>
+            <div class='tab-pane fade' id='login-form'>
+              <form action='/login' method='GET' role='form'>
+                <div class='form-group row'>
+                  <div class='col-sm-6 col-sm-offset-3'>
+                    <input class='form-control' type='text' name='email' placeholder='Email'/>
+                  </div>
+                </div>
+                <div class='form-group row'>
+                  <div class='col-sm-6 col-sm-offset-3'>
+                    <input class='form-control' type='password' name='password' placeholder='Password'/>
+                  </div>
+                </div>
+                <div class='form-group row'>
+                  <div class='col-sm-4 col-sm-offset-4'>
+                    <button type='submit' class='btn btn-primary form-control'>LOG IN</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class='tab-pane fade' id='resister-form'>
+              <form role='form'>
+                <div class='form-group row'>
+                  <div class='col-sm-6 col-sm-offset-3'>
+                    <input class='form-control' type='text' name='email' placeholder='Email'/>
+                  </div>
+                </div>
+                <div class='form-group row'>
+                  <div class='col-sm-6 col-sm-offset-3'>
+                    <input class='form-control' type='password' name='password' placeholder='Password'/>
+                  </div>
+                </div>
+                <div class='form-group row'>
+                  <div class='col-sm-4 col-sm-offset-4'>
+                    <button type='submit' class='btn btn-primary form-control'>RESISTER</button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
-          <div class='panel-body'>
-            <div class='row'>
-              <div class='col-md-12'>
-
-                <form action='/login' method='GET' role='form' id='login-form'>
-                  <div class='form-group'>
-                    <div class='row'>
-                      <div class='col-sm-6 col-sm-offset-3'>
-                        <input class='form-control' type='text' name='email' placeholder='Email'/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class='form-group'>
-                    <div class='row'>
-                      <div class='col-sm-6 col-sm-offset-3'>
-                        <input class='form-control' type='password' name='password' placeholder='Password'/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class='form-group'>
-                    <div class='row'>
-                      <div class='col-sm-4 col-sm-offset-4'>
-                        <button type='submit' class='btn btn-primary form-control'>LOG IN</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-
-                <form role='form' id='resister-form'>
-                  <div class='form-group'>
-                    <div class='row'>
-                      <div class='col-sm-6 col-sm-offset-3'>
-                        <input class='form-control' type='text' name='email' placeholder='Email'/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class='form-group'>
-                    <div class='row'>
-                      <div class='col-sm-6 col-sm-offset-3'>
-                        <input class='form-control' type='password' name='password' placeholder='Password'/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class='form-group'>
-                    <div class='row'>
-                      <div class='col-sm-4 col-sm-offset-4'>
-                        <button type='submit' class='btn btn-primary form-control'>RESISTER</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-
-              </div>
-            </div>
-
-
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -89,23 +63,21 @@
   <script src='/libs/bootstrap-3.3.6/js/bootstrap.min.js'></script>
   <script>
     // for register form
-    document.getElementById('login-form').style.display = 'block';
-    document.getElementById('resister-form').style.display = 'none';
-    document.getElementById('login-form-link').className = 'active';
-    document.getElementById('resister-form-link').className = '';
+    $('#login-form').addClass('active').addClass('in');
+    document.getElementById('login-form-link').parentNode.className = 'active';
     document.getElementById('login-form-link').addEventListener('click', function(e){
       e.preventDefault();
-      document.getElementById('login-form').style.display = 'block';
-      document.getElementById('resister-form').style.display = 'none';
-      document.getElementById('login-form-link').className = 'active';
-      document.getElementById('resister-form-link').className = '';
+      $('#login-form').addClass('active').addClass('in');
+      $('#resister-form').removeClass('active').removeClass('in');
+      document.getElementById('login-form-link').parentNode.className = 'active';
+      document.getElementById('resister-form-link').parentNode.className = '';
     });
     document.getElementById('resister-form-link').addEventListener('click', function(e){
       e.preventDefault();
-      document.getElementById('login-form').style.display = 'none';
-      document.getElementById('resister-form').style.display = 'block';
-      document.getElementById('login-form-link').className = '';
-      document.getElementById('resister-form-link').className = 'active';
+      $('#login-form').removeClass('active').removeClass('in');
+      $('#resister-form').addClass('active').addClass('in');
+      document.getElementById('login-form-link').parentNode.className = '';
+      document.getElementById('resister-form-link').parentNode.className = 'active';
     });
     document.getElementById('resister-form').addEventListener('submit' , function(e){
       e.preventDefault();

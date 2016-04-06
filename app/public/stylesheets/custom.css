@@ -10,8 +10,8 @@ body{
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #707478;
 }
-.navbar-default .navbar-nav > li > a:focus,
-.navbar-default .navbar-nav > li > a:hover{
+.navbar-default .navbar-nav>li> a:focus,
+.navbar-default .navbar-nav>li> a:hover{
   color: #ffffff;
 }
 #header{
@@ -36,20 +36,43 @@ body{
   background-color: #222;
   border-color: #080808;
 }
-.inverse > .panel-title{
+.inverse>.panel-title{
   color: #ffffff;
 }
-.panel-login > .panel-heading {
+.panel-login>.panel-heading {
   color: #00415d;
   background-color: #ffffff;
   border-color: #ffffff;
-  text-align:center;
+  text-align: center;
 }
-.panel-login > .panel-heading a{
+.panel-login>.panel-heading a{
   text-decoration: none;
   color: #666666;
 }
 .panel-login > .panel-heading a.active{
   color: #337ab7;
   font-weight: bold;
+}
+.nav.nav-tabs{
+  border-bottom: 0;
+}
+.nav.nav-tabs>li{
+  width: 50%;
+  text-align: center;
+  margin-bottom: 0;
+}
+.nav-tabs>li>a{
+  color: #000000;
+  border: 0;
+}
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover{
+  color: #337ab7;
+  border: 0;
+}
+.tab-content{
+  background-color: #ffffff;
+  padding: 3em 0 1em 0;
+  margin-right: 2px; */
 }

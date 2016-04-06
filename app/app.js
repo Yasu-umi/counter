@@ -23,19 +23,6 @@ var config = require('config');
 var logger = require('./libs/logger');
 app.use(logger.express);
 
-process.on('exit', function(){
-  if (config.get('pidfile')) {
-    var fs = require('fs');
-    fs.unlink(config.get('pidfile'), function(err) {
-      if (err) {
-        logger.error.info({ message: 'Error Delete pidfile', err:  err });
-      } else {
-        logger.system.info({ message: 'Success Deleted pidfile'});
-      }
-    });
-  }
-});
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
