@@ -3,7 +3,7 @@
 PORT="3000"
 APP_DIR="/var/www"
 
-NODE_ENV="development"
+NODE_ENV="production"
 NODE_CONFIG_DIR="$APP_DIR/config"
 
 NPM_EXEC=$(which npm)
