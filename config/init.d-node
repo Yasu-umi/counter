@@ -63,14 +63,14 @@ start_app() {
       echo "Node app stopped, but pid file exists"
       echo "Forcing start anyways"
       remove_pid_file
-      start_it
+      start_process
     fi
   else
     if is_running
     then
       stop_process
     fi
-    start_it
+    start_process
   fi
 }
 
